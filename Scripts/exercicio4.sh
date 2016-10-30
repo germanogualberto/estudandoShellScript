@@ -1,9 +1,17 @@
 #!/bin/bash
 
 adicionarElemento(){
-    echo $tempo
+    #echo $tempo
+    if (( $(echo "${maioresTempos[0]} < $tempo" | bc -l) ))
+    then
+        maioresTempos[0]=$tempo
+        maioresLinhas[0]=$linha
+        echo $linha
+        echo $tempo
+    fi
+    
 }
-maioresLinhas=(hey teacher leaves) #us kids alone
+maioresLinhas=(hey teacher leave) #those kids alone
 maioresTempos=(0.0 0.0 0.0)
 
 
@@ -29,6 +37,8 @@ do
     #echo ${tempo:0:1}
     if [ ${tempo:0:1} = '<' ]
     then
+        tempo=${tempo/</''}
+        tempo=${tempo/>/''}
         adicionarElemento
     fi
     
