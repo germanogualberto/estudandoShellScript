@@ -19,6 +19,10 @@ capturarProgramas(){
                 indice=$[$indice+1]
             done
             #echo ${dados[3]}
+
+            vezes=$[$vezes+1]
+            VSZ=$[$VSZ+${dados[4]}]
+            
             MEM=` echo $MEM+${dados[3]}  | bc`
             CPU=` echo $CPU+${dados[2]}  | bc`
             if (( $(echo "${dados[2]} > $maiorValorCPU" | bc -l) ))
@@ -92,6 +96,8 @@ menorValorCPU=100
 maiorValorMEM=0
 menorValorMEM=100
 retornouAlgo=0
+vezes=0
+VSZ=0
 
 tempoinicial=$SECONDS
 contador=0
@@ -131,3 +137,5 @@ echo Menor valor de MEM encontrado: $menorValorMEM
 rm processos
 
 #adcionar funcionalidade extra
+mediaVSZ=$[VSZ/vezes]
+echo Media do VSZ '(virtual memory usage of entire process)' : $mediaVSZ
