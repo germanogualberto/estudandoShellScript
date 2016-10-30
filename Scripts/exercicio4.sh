@@ -2,12 +2,21 @@
 
 adicionarElemento(){
     #echo $tempo
-    if (( $(echo "${maioresTempos[0]} < $tempo" | bc -l) ))
+    if (( $(echo "$tempo > ${maioresTempos[$j]} " | bc -l) ))
     then
-        maioresTempos[0]=$tempo
-        maioresLinhas[0]=$linha
-        echo $linha
-        echo $tempo
+        b=$[$j-1]
+        if (( $(echo "$j > 0 " | bc -l) )) 
+        then
+            if (( $(echo "$tempo < ${maioresTempos[$b]} " | bc -l) ));then
+                maioresTempos[$j]=$tempo
+                maioresLinhas[$j]=$linha
+            fi
+        else
+            maioresTempos[$j]=$tempo
+            maioresLinhas[$j]=$linha
+        fi
+        #echo ${maioresLinhas[0]}
+        #echo ${maioresTempos[0]}
     fi
     
 }
@@ -27,7 +36,7 @@ done
 
 `strace -T ${comandos[*]} &> traces`
 
-
+for j in 0 1 2; do
 while read linha
 do
     for termo in ${linha[*]}
@@ -43,5 +52,14 @@ do
     fi
     
 done < traces
+done
+
+echo Chamadas:
+for i in 0 1 2
+do
+    echo ${maioresLinhas[$i]}
+done
+
+#funcionalidade extra
 
 rm traces
