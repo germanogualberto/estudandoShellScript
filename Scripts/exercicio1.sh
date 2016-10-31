@@ -40,10 +40,16 @@ do
         esac
     fi
 
-    if [ ${requisicao[9]} != - ]
-    then
-        tamanhos=$[$tamanhos+${requisicao[9]}]
+    if [ ${#requisicao[*]} -gt 5 ]; then
+        if [ ${requisicao[9]:0:1} != - ] 
+        then
+            tamanhos=$[$tamanhos+${requisicao[9]}]
+        #else
+        #    echo ${requisicao[*]}
+        #    echo ${requisicao[9]:0:1}
+        fi
     fi
+    
     
     contador=$[$contador+1]
     if [ $contador -eq 140 ]
