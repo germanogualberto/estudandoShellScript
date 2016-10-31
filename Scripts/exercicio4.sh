@@ -18,11 +18,56 @@ adicionarElemento(){
         #echo ${maioresLinhas[0]}
         #echo ${maioresTempos[0]}
     fi
-    
 }
 maioresLinhas=(hey teacher leave) #those kids alone
 maioresTempos=(0.0 0.0 0.0)
 
+contarChamadas() {
+     
+     #echo $syscall
+     num=0
+     #posicao impar = nome da syscall
+     #posicao impar+1 = quantidade de chamadas da syscall
+     for element in ${chamadas[*]}
+     do
+        if [ $element = $syscall ]
+        then
+            #achou o elemento na lista
+            chamadas[$num+1]=$[${chamadas[$num+1]}+1]
+            achou=sim
+            break
+        else
+            achou=nao
+        #    chamadas[$num]=$syscall
+        #    chamadas[$num+1]=1
+        fi
+        #echo ${chamadas[*]}
+        #read abbbbb
+        num=$[$num+1]
+     done
+     if [ $achou = nao ]
+     then
+        chamadas[$num]=$syscall
+        chamadas[$num+1]=1
+     fi
+}
+
+maiorChamada(){
+    #quantBigger=0
+    cont=2
+    while [ $cont -lt ${#chamadas[*]} ] || [ $cont -eq ${#chamadas[*]} ]
+    do
+        if [ ${chamadas[cont]} -gt $quantBigger ]
+        then
+            quantBigger=${chamadas[cont]}
+            sysMaisChamada=${chamadas[cont-1]}
+        fi
+        cont=$[$cont+2]
+    done
+}
+
+
+chamadas=(entao)
 
 contador=0
 comandos=()
@@ -49,17 +94,32 @@ do
         tempo=${tempo/</''}
         tempo=${tempo/>/''}
         adicionarElemento
+
+        syscall=${linha/(*/''}
+        if [ ${syscall:0:1} != ')' ]
+        then
+            #echo $syscall
+            contarChamadas
+        fi
+        
     fi
     
 done < traces
 done
-
+echo -------------------------------------------------------------------
 echo Chamadas:
 for i in 0 1 2
 do
     echo ${maioresLinhas[$i]}
 done
 
+
 #funcionalidade extra
+quantBigger=0
+sysMaisChamada=null
+maiorChamada
+echo
+echo Syscall mais chamada: $sysMaisChamada $quantBigger vezes
+echo -------------------------------------------------------------------
 
 rm traces
