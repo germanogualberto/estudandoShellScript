@@ -1,0 +1,11 @@
+CUPS-Add-Modify-Printer
+CUPS-Delete-Printer
+CUPS-Get-Devices
+CUPS-Get-Document
+CUPS-Get-PPDs
+Cancel-Job
+Create-Job
+Pause-Printer
+Resume-Printer
+Send-Document
+Set-Job-Attributes
